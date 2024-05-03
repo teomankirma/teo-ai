@@ -761,6 +761,46 @@ export interface LoginSliceDefaultPrimary {
   description: prismic.RichTextField;
 
   /**
+   * Email Input Label field in *Login → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: login.primary.email_input_label
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  email_input_label: prismic.KeyTextField;
+
+  /**
+   * Email Input Placeholder field in *Login → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: login.primary.email_input_placeholder
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  email_input_placeholder: prismic.KeyTextField;
+
+  /**
+   * Password Input Label field in *Login → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: login.primary.password_input_label
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  password_input_label: prismic.KeyTextField;
+
+  /**
+   * Password Input Placeholder field in *Login → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: login.primary.password_input_placeholder
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  password_input_placeholder: prismic.KeyTextField;
+
+  /**
    * Button Label field in *Login → Primary*
    *
    * - **Field Type**: Text

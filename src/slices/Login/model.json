@@ -30,6 +30,34 @@
             "single": "paragraph"
           }
         },
+        "email_input_label": {
+          "type": "Text",
+          "config": {
+            "label": "Email Input Label",
+            "placeholder": ""
+          }
+        },
+        "email_input_placeholder": {
+          "type": "Text",
+          "config": {
+            "label": "Email Input Placeholder",
+            "placeholder": ""
+          }
+        },
+        "password_input_label": {
+          "type": "Text",
+          "config": {
+            "label": "Password Input Label",
+            "placeholder": ""
+          }
+        },
+        "password_input_placeholder": {
+          "type": "Text",
+          "config": {
+            "label": "Password Input Placeholder",
+            "placeholder": ""
+          }
+        },
         "button_label": {
           "type": "Text",
           "config": {

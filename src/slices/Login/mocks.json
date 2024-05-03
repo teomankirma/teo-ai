@@ -29,6 +29,26 @@
 				"__TYPE__": "FieldContent",
 				"value": "live",
 				"type": "Text"
+			},
+			"email_input_label": {
+				"__TYPE__": "FieldContent",
+				"value": "particularly",
+				"type": "Text"
+			},
+			"email_input_placeholder": {
+				"__TYPE__": "FieldContent",
+				"value": "lying",
+				"type": "Text"
+			},
+			"password_input_label": {
+				"__TYPE__": "FieldContent",
+				"value": "iron",
+				"type": "Text"
+			},
+			"password_input_placeholder": {
+				"__TYPE__": "FieldContent",
+				"value": "typical",
+				"type": "Text"
 			}
 		},
 		"items": []
