@@ -49,6 +49,13 @@
 				"__TYPE__": "FieldContent",
 				"value": "typical",
 				"type": "Text"
+			},
+			"button_link": {
+				"__TYPE__": "LinkContent",
+				"value": {
+					"__TYPE__": "ExternalLink",
+					"url": "http://twitter.com"
+				}
 			}
 		},
 		"items": []
