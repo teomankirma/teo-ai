@@ -1,0 +1,72 @@
+{
+  "id": "login",
+  "type": "SharedSlice",
+  "name": "Login",
+  "description": "Login",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "heading2"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Description",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "paragraph"
+          }
+        },
+        "email_input_label": {
+          "type": "Text",
+          "config": {
+            "label": "Email Input Label",
+            "placeholder": ""
+          }
+        },
+        "email_input_placeholder": {
+          "type": "Text",
+          "config": {
+            "label": "Email Input Placeholder",
+            "placeholder": ""
+          }
+        },
+        "password_input_label": {
+          "type": "Text",
+          "config": {
+            "label": "Password Input Label",
+            "placeholder": ""
+          }
+        },
+        "password_input_placeholder": {
+          "type": "Text",
+          "config": {
+            "label": "Password Input Placeholder",
+            "placeholder": ""
+          }
+        },
+        "button_label": {
+          "type": "Text",
+          "config": {
+            "label": "Button Label",
+            "placeholder": ""
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}
