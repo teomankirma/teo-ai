@@ -5,8 +5,7 @@ import {
   PrismicText,
   SliceComponentProps,
 } from "@prismicio/react";
-import { Input } from "@nextui-org/input";
-import { Button } from "@nextui-org/button";
+import LoginForm from "./LoginForm";
 
 /**
  * Props for `Login`.
@@ -30,27 +29,7 @@ const Login = ({ slice }: LoginProps): JSX.Element => {
       <div className="mx-auto mt-6 max-w-md text-balance">
         <PrismicRichText field={slice.primary.description} />
       </div>
-
-      <div className="my-6 grid w-full gap-4 md:w-1/3">
-        <Input
-          type="email"
-          label={slice.primary.email_input_label}
-          placeholder={slice.primary.email_input_placeholder || ""}
-        />
-        <Input
-          type="password"
-          label={slice.primary.password_input_label}
-          placeholder={slice.primary.password_input_placeholder || ""}
-        />
-      </div>
-
-      <Button
-        color="success"
-        className="text-lg text-white md:text-xl"
-        size="lg"
-      >
-        <span className="p-4">{slice.primary.button_label}</span>
-      </Button>
+      <LoginForm slice={slice} />
     </Bounded>
   );
 };

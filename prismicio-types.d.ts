@@ -809,6 +809,16 @@ export interface LoginSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   button_label: prismic.KeyTextField;
+
+  /**
+   * Button Link field in *Login → Primary*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: login.primary.button_link
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  button_link: prismic.LinkField;
 }
 
 /**
