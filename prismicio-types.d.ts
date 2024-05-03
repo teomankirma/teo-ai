@@ -102,6 +102,67 @@ export type CaseStudyDocument<Lang extends string = string> =
     Lang
   >;
 
+type LoginDocumentDataSlicesSlice = LoginSlice;
+
+/**
+ * Content for Login documents
+ */
+interface LoginDocumentData {
+  /**
+   * Slice Zone field in *Login*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: login.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<LoginDocumentDataSlicesSlice> /**
+   * Meta Description field in *Login*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: login.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */;
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Login*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: login.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  meta_image: prismic.ImageField<never>;
+
+  /**
+   * Meta Title field in *Login*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: login.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_title: prismic.KeyTextField;
+}
+
+/**
+ * Login document from Prismic
+ *
+ * - **API ID**: `login`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type LoginDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<Simplify<LoginDocumentData>, "login", Lang>;
+
 type PageDocumentDataSlicesSlice =
   | CallToActionSlice
   | IntegrationsSlice
@@ -284,6 +345,7 @@ export type SettingsDocument<Lang extends string = string> =
 
 export type AllDocumentTypes =
   | CaseStudyDocument
+  | LoginDocument
   | PageDocument
   | SettingsDocument;
 
@@ -675,6 +737,68 @@ export type IntegrationsSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Primary content in *Login → Primary*
+ */
+export interface LoginSliceDefaultPrimary {
+  /**
+   * Heading field in *Login → Primary*
+   *
+   * - **Field Type**: Title
+   * - **Placeholder**: *None*
+   * - **API ID Path**: login.primary.heading
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  heading: prismic.TitleField;
+
+  /**
+   * Description field in *Login → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: login.primary.description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  description: prismic.RichTextField;
+
+  /**
+   * Button Label field in *Login → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: login.primary.button_label
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  button_label: prismic.KeyTextField;
+}
+
+/**
+ * Default variation for Login Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type LoginSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<LoginSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Login*
+ */
+type LoginSliceVariation = LoginSliceDefault;
+
+/**
+ * Login Shared Slice
+ *
+ * - **API ID**: `login`
+ * - **Description**: Login
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type LoginSlice = prismic.SharedSlice<"login", LoginSliceVariation>;
+
+/**
  * Primary content in *RichText → Primary*
  */
 export interface RichTextSliceDefaultPrimary {
@@ -925,6 +1049,9 @@ declare module "@prismicio/client" {
       CaseStudyDocument,
       CaseStudyDocumentData,
       CaseStudyDocumentDataSlicesSlice,
+      LoginDocument,
+      LoginDocumentData,
+      LoginDocumentDataSlicesSlice,
       PageDocument,
       PageDocumentData,
       PageDocumentDataSlicesSlice,
@@ -955,6 +1082,10 @@ declare module "@prismicio/client" {
       IntegrationsSliceDefaultItem,
       IntegrationsSliceVariation,
       IntegrationsSliceDefault,
+      LoginSlice,
+      LoginSliceDefaultPrimary,
+      LoginSliceVariation,
+      LoginSliceDefault,
       RichTextSlice,
       RichTextSliceDefaultPrimary,
       RichTextSliceVariation,

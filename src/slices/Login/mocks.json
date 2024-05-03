@@ -1,0 +1,36 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "Cover"
+						}
+					}
+				]
+			},
+			"description": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Eiusmod voluptate quis aliquip aute ea dolor consectetur. Tempor elit dolor nulla sunt id aliquip. Est deserunt incididunt voluptate cupidatat officia in qui Lorem enim id aute cillum adipisicing."
+						}
+					}
+				]
+			},
+			"button_label": {
+				"__TYPE__": "FieldContent",
+				"value": "live",
+				"type": "Text"
+			}
+		},
+		"items": []
+	}
+]
