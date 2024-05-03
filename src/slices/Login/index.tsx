@@ -1,6 +1,7 @@
 import Bounded from "@/components/Bounded";
 import { Content } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
+import { Input } from "@nextui-org/input";
 
 /**
  * Props for `Login`.
@@ -18,6 +19,7 @@ const Login = ({ slice }: LoginProps): JSX.Element => {
     >
       <PrismicRichText field={slice.primary.heading} />
       <PrismicRichText field={slice.primary.description} />
+      <Input type="email" label="Email" />
 
       <>{slice.primary.button_label}</>
     </Bounded>
