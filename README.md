@@ -1,124 +1,100 @@
-# Prismic + Next.js Minimal TypeScript Starter
+# teo.ai Marketing Site
 
-Want to quickly get started building your own project with [Prismic][prismic], [Next.js][nextjs], and TypeScript? This project includes basic configurations and nothing else. The project includes one Rich Text Slice, a homepage, and a dynamic page.
+A content-managed marketing site for **teo.ai**, built with Next.js 14 (App Router) and powered by Prismic slices. The project pairs animated hero storytelling with case studies, integration showcases, and a custom login funnel, all editable from Prismic's editor.
 
-- **Demo**: [Open live demo][live-demo]
-- **Learn more about Prismic and Next.js**: [Prismic Next.js Documentation][prismic-docs]
+- **Production CMS**: Prismic (`teo-ai` repository)
+- **UI layer**: Next.js 14 · React 18 · TypeScript · Tailwind CSS · NextUI · GSAP/Framer Motion
+- **Content primitives**: Shared slices for Hero, Bento feature grid, Showcase, Integrations, Case Studies, Call To Action, Login, and Rich Text
 
-&nbsp;
 
-![Website screenshot](https://user-images.githubusercontent.com/31219208/228821412-fdde92b2-c13c-4287-b799-611fa96a5fd6.png)
+## Getting Started
 
-&nbsp;
+### Prerequisites
+- Node.js 18.17+ and npm 9+
+- Access to the `teo-ai` Prismic repository (or your own fork)
+- Optional: a Prismic access token if the repository is not public
 
-## 🚀 Quick Start
-
-To start a new project using this starter, run the following commands in your terminal:
-
-```sh
-npx degit prismicio-community/nextjs-starter-prismic-minimal-ts your-project-name
-cd your-project-name
-npx @slicemachine/init@latest
-```
-
-The commands will do the following:
-
-1. Start a new Next.js project using this starter.
-2. Ask you to log in to Prismic or [create an account][prismic-sign-up].
-3. Create a new Prismic content repository with sample content.
-
-When you're ready to start your project, run the following command:
-
-```sh
+### Install & run
+```bash
+npm install
 npm run dev
 ```
 
-## How to use your project
+`npm run dev` launches both the Next.js dev server and Slice Machine (for local slice/model editing). Use `npm run next:dev` if you only need the Next.js server, or `npm run slicemachine` to open Slice Machine independently.
 
-To edit the content of this project, go to [prismic.io/dashboard](https://prismic.io/dashboard), click on the repository for this website, and start editing.
+### Environment variables
+Create a `.env.local` file if you need to override defaults:
 
-### Create a page
+```bash
+NEXT_PUBLIC_PRISMIC_ENVIRONMENT=teo-ai   # Different Prismic environment name, optional
+PRISMIC_ACCESS_TOKEN=xxxxxxxx            # Required only if the repository is private
+```
 
-To create a page, click on the green pencil icon, then select **Page**.
+> `createClient` in `src/prismicio.ts` falls back to the repository name from `slicemachine.config.json`, so no configuration is needed for public repositories.
 
-Pages are made of Slices. You can add and rearrange Slices to your pages.
+## Project Structure
 
-Your new page will be accessible by its URL, but it won't appear on the website automatically. To let users discover it, add it to the navigation.
+```
+src/
+  app/               # App Router routes, layouts, providers, preview & revalidate endpoints
+  components/        # Reusable UI (header/footer with Prismic settings integration, StarGrid etc.)
+  hooks/             # `usePrefersReducedMotion` hook shared across GSAP animations
+  slices/            # Slice components registered in `src/slices/index.ts`
+  prismicio.ts       # Prismic client factory + route resolvers
+customtypes/         # Slice Machine models for Prismic custom types and shared slices
+```
 
-### Preview documents
+Key route handlers:
+- `src/app/page.tsx`: Homepage, resolves the `page` document with UID `home`
+- `src/app/[uid]/page.tsx`: Static pages driven by the `page` custom type
+- `src/app/case-study/[uid]/page.tsx`: Case study detail pages with logo hero and dynamic slice zone
+- `src/app/login/page.tsx`: Login landing page rendered from the dedicated `login` custom type
+- `src/app/api/revalidate/route.ts`: Helper endpoint to revalidate Prismic-tagged pages on demand
 
-If you chose this starter when you created a new repository from the Prismic Dashboard, then your repository is preconfigured with previews on localhost. To change the preview configuration or add previews to your production or staging environments, see [Preview Drafts in Next.js](https://prismic.io/docs/technologies/preview-content-nextjs) in the Prismic documentation.
+## Content Model
 
-### Customize this website
+Custom types shipped with the repo:
+- `settings`: Global navigation, default metadata, CTA toggle for nav items (used in `Header`/`Footer`)
+- `page`: Marketing pages composed of shared slices with per-page SEO fields
+- `case_study`: Company-specific case studies; linked from the `CaseStudies` slice
+- `login`: Single document providing the login form slice
 
-This website is preconfigured with Prismic. It has three Prismic packages installed:
+Shared slices available from Slice Machine (`src/slices`):
+- `Hero`: Animated hero section with GSAP-powered entrance animations and StarGrid backdrop
+- `Bento`: Configurable feature cards with optional wide layout, gradient accents, and Prismic-managed imagery
+- `Showcase`: Scroll-triggered product highlight with CTA and media panel
+- `Integrations`: Animated integration timeline; supports `digitalocean`, `cloudflare`, `npm`, `github`, `figma`, and `fly` icon keys
+- `CaseStudies`: Fetches linked `case_study` documents server-side and renders logo/summary pairs
+- `CallToAction`: Gradient-backed CTA with branded mark
+- `Login`: NextUI-based credential form using Prismic copy
+- `RichText`: General purpose long-form content with hyperlink/code span serializers
 
-- `@prismicio/client` provides helpers for fetching content from Prismic
-- `@prismicio/react` provides React components for rendering content from Prismic
-- `@prismicio/next` provides a wrapper component to configure Prismic previews
+All slices are auto-registered through `src/slices/index.ts`, enabling lazy loading via Next.js dynamic imports.
 
-These packages are already integrated and employed in this app. Take a look at the code to see how they're used.
+## Animations & Accessibility
+- Animations are orchestrated with GSAP/Framer Motion; the shared `usePrefersReducedMotion` hook honors system reduced-motion preferences and disables transitions when necessary
+- Background motifs (`StarGrid`, integration "signal lines") rely on Tailwind-based utility classes defined in `globals.css`
 
-### Edit the code
+## Development Workflow
+1. **Edit content** in Prismic; navigation updates happen in the `Settings` singleton
+2. **Model or tweak slices** with Slice Machine (`http://localhost:9999` by default) and preview them at `http://localhost:3000/slice-simulator`
+3. **Fetch new case studies** by linking a `case_study` document inside the `CaseStudies` slice; routes are generated via `generateStaticParams`
+4. **Trigger revalidation** by POSTing to `/api/revalidate` after publishing content, or rely on on-demand revalidation tags in production
 
-There are two steps to rendering content from Prismic in your Next.js project:
+## Available npm scripts
+- `npm run dev` – Next.js dev server + Slice Machine (concurrently)
+- `npm run next:dev` – Next.js dev server only
+- `npm run slicemachine` – Slice Machine standalone
+- `npm run build` – Production build
+- `npm run start` – Serve the built app
+- `npm run lint` – Run Next.js/ESLint rules
+- `npm run format` – Format with Prettier + Tailwind plugin
 
-1. Fetch content from the Prismic API using `@prismicio/client`.
-2. Template the content using components from `@prismicio/react`.
-
-Here are some of the files in your project that you can edit:
-
-- `prismicio.ts` - This file includes configuration for `@prismicio/client` and exports useful API helpers.
-- `app/layout.tsx` - This is your layout component, which includes configuration for `@prismicio/react` and `@prismicio/next`.
-- `app/page.tsx` - This is the app homepage. It queries and renders a page document with the UID (unique identifier) "home" from the Prismic API.
-- `app/[uid]/page.tsx` - This is the page component, which queries and renders a page document from your Prismic repository based on the UID.
-- `slices/*/index.tsx` - Each Slice in your project has an index.js file that renders the Slice component. Edit this file to customize your Slices.
-
-These are important files that you should leave as-is:
-
-- `app/api/exit-preview/route.ts` - Do not edit or delete this file. This is the API endpoint to close a Prismic preview session.
-- `app/api/preview/route.ts` - Do not edit or delete this file. This is the API endpoint to launch a Prismic preview session.
-- `app/slice-simulator/page.tsx` - Do not edit or delete this file. This file simulates your Slice components in development.
-- `slices/` - This directory contains Slice components, which are generated programmatically by Slice Machine. To customize a Slice template, you can edit the Slice's index.js file. To add Slices, delete Slices, or edit Slice models, use Slice Machine (more info below).
-
-Learn more about how to edit your components with [Fetch Data in Next.js](https://prismic.io/docs/technologies/fetch-data-nextjs) and [Template Content in Next.js](https://prismic.io/docs/technologies/template-content-nextjs).
-
-Learn more about how to use [TypeScript with Prismic](https://prismic.io/docs/typescript-nextjs).
-
-### Deploy to the web
-
-To put your project online, see [Deploy your Next.js App](https://prismic.io/docs/technologies/deploy-nextjs).
-
-### Edit content models with Slice Machine
-
-This project includes an application called Slice Machine, which generates models for your Custom Types and Slices. Slice Machine stores the models locally in your codebase, so you can save and version them. It also syncs your models to Prismic. To learn how to use Slice Machine, read [Model Content in Next.js](https://prismic.io/docs/technologies/model-content-nextjs).
-
-If you change or add to your Custom Types, you'll need to update your route handling to match. To learn how to do that, read [Define Paths in Next.js](https://prismic.io/docs/technologies/define-paths-nextjs).
-
-## Documentation
-
-For the official Prismic documentation, see [Prismic's guide for Next.js][prismic-docs] or the [technical references for the installed Prismic packages](https://prismic.io/docs/technologies/technical-references).
+## Deployment Notes
+- Production builds pre-render Prismic documents; previews are enabled via `@prismicio/next`'s `PrismicPreview` component in `src/app/layout.tsx`
+- ISR is configured through `next: { revalidate: 5 }` during development and tag-based revalidation in production (`"prismic"` cache tag)
+- Ensure the hosting environment exposes any required Prismic environment name or tokens via env vars described above
 
 ## License
 
-```
-Copyright 2013-2022 Prismic <contact@prismic.io> (https://prismic.io)
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
-
-[prismic]: https://prismic.io/
-[prismic-docs]: https://prismic.io/docs/technologies/nextjs
-[prismic-sign-up]: https://prismic.io/dashboard/signup
-[nextjs]: https://nextjs.org/
-[live-demo]: https://nextjs-starter-prismic-minimal.vercel.app/
+Apache License 2.0 – see [`LICENSE`](./LICENSE).
